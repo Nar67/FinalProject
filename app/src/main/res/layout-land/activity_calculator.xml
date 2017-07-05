@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<HorizontalScrollView
+    android:id="@+id/horiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:scrollbars="none"
+    android:contextClickable="true"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp">
+
+    <TextView
+        android:id="@+id/text_calc"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:lines="1"
+        android:text=""
+        android:layout_gravity="end"
+        android:textColor="@color/Black"
+        android:textSize="69sp" />
+
+</HorizontalScrollView>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/calc_sin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="sin"
+            />
+        <Button
+            android:id="@+id/calc_cos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="cos" />
+
+        <Button
+            android:id="@+id/calc_tan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="tan" />
+
+        <Button
+            android:id="@+id/calc_pow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="^" />
+
+        <Button
+            android:id="@+id/calc_sqrt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="√" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/calc_open_par"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="("
+            />
+        <Button
+            android:id="@+id/calc_seven"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/calc_four"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/calc_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/calc_coma"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="." />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/calc_close_par"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text=")"
+            />
+        <Button
+            android:id="@+id/calc_eight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/calc_five"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/calc_two"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/calc_zero"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/calc_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"
+            android:background="@drawable/select_button"
+            android:text="DEL"
+            />
+        <Button
+            android:id="@+id/calc_nine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/select_button"
+            android:stateListAnimator="@null"
+            android:text="9" />
+
+        <Button
+            android:id="@+id/calc_six"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/select_button"
+            android:stateListAnimator="@null"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/calc_three"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/select_button"
+            android:stateListAnimator="@null"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/calc_equals"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/select_button"
+            android:stateListAnimator="@null"
+            android:text="=" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/calc_AC"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:stateListAnimator="@null"
+            android:background="@drawable/slect_button_ops"
+            android:text="AC"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <Button
+            android:id="@+id/calc_div"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:stateListAnimator="@null"
+            android:background="@drawable/slect_button_ops"
+            android:text="÷" />
+
+        <Button
+            android:id="@+id/calc_mult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:stateListAnimator="@null"
+            android:background="@drawable/slect_button_ops"
+            android:text="x" />
+
+        <Button
+            android:id="@+id/calc_subs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:stateListAnimator="@null"
+            android:background="@drawable/slect_button_ops"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/calc_sum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:stateListAnimator="@null"
+            android:background="@drawable/slect_button_ops"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/calc_ans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@drawable/slect_button_ops"
+            android:stateListAnimator="@null"
+            android:text="ANS" />
+    </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>

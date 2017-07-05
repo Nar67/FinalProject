@@ -1,6 +1,7 @@
 package com.tg.narcis.finalproject.fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.tg.narcis.finalproject.R;
 import com.tg.narcis.finalproject.MainActivity;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static com.tg.narcis.finalproject.R.menu.drawer;
 import static java.lang.String.valueOf;
 
@@ -33,6 +35,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
     HorizontalScrollView horizon;
     Button calc_one, calc_two, calc_three, calc_four, calc_five, calc_six, calc_seven, calc_eight, calc_nine, calc_zero;
     Button calc_div, calc_mult, calc_subs, calc_sum, calc_equal, calc_coma, calc_ac, calc_ans, calc_open_par, calc_close_par, calc_del;
+    Button calc_sin, calc_cos, calc_tan, calc_pow, calc_sqrt;
     private double result;
     boolean notif_toast;
 
@@ -72,6 +75,20 @@ public class Calculator extends Fragment implements View.OnClickListener {
         calc_open_par = rootView.findViewById(R.id.calc_open_par);
         calc_close_par = rootView.findViewById(R.id.calc_close_par);
         calc_del = rootView.findViewById(R.id.calc_delete);
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
+            calc_sin = rootView.findViewById(R.id.calc_sin);
+            calc_cos = rootView.findViewById(R.id.calc_cos);
+            calc_tan = rootView.findViewById(R.id.calc_tan);
+            calc_pow = rootView.findViewById(R.id.calc_pow);
+            calc_sqrt = rootView.findViewById(R.id.calc_sqrt);
+
+            calc_sin.setOnClickListener(this);
+            calc_cos.setOnClickListener(this);
+            calc_tan.setOnClickListener(this);
+            calc_pow.setOnClickListener(this);
+            calc_sqrt.setOnClickListener(this);
+        }
+
         //setSupportActionBar(toolbar);
 
         calc_zero.setOnClickListener(this);
@@ -95,6 +112,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
         calc_open_par.setOnClickListener(this);
         calc_close_par.setOnClickListener(this);
         calc_del.setOnClickListener(this);
+
         return rootView;
 
     }
@@ -139,7 +157,10 @@ public class Calculator extends Fragment implements View.OnClickListener {
             double parse() {
                 nextChar();
                 double x = parseExpression();
-                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                if (pos < str.length()) {
+                    //notification();
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
                 return x;
             }
 
@@ -183,12 +204,16 @@ public class Calculator extends Fragment implements View.OnClickListener {
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
-                    if (func.equals("sqrt")) x = Math.sqrt(x);
+                    if (func.equals("√")) x = Math.sqrt(x);
                     else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
                     else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-                    else throw new RuntimeException("Unknown function: " + func);
+                    else {
+                        //notification();
+                        throw new RuntimeException("Unknown function: " + func);
+                    }
                 } else {
+                    //notification();
                     throw new RuntimeException("Unexpected: " + (char)ch);
                 }
 
@@ -254,7 +279,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                     if(notif_toast)
                         Toast.makeText(getActivity(), "Math Error", Toast.LENGTH_SHORT).show();
                     else
-                        notification_state();
+                        //notification_state();
                     setText("");
                 }
                 else if(result - (int) result == 0)
@@ -284,6 +309,26 @@ public class Calculator extends Fragment implements View.OnClickListener {
             case R.id.calc_delete:
                 showed_text = del_last_char(showed_text);
                 setText(showed_text);
+                break;
+            case R.id.calc_sin:
+                if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+                    setText(showed_text+ "sin");
+                break;
+            case R.id.calc_cos:
+                if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+                    setText(showed_text+ "cos");
+                break;
+            case R.id.calc_tan:
+                if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+                    setText(showed_text+ "tan");
+                break;
+            case R.id.calc_pow:
+                if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+                    setText(showed_text+ "^");
+                break;
+            case R.id.calc_sqrt:
+                if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+                    setText(showed_text+ "√");
                 break;
         }
     }
