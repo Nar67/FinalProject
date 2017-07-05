@@ -12,11 +12,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tg.narcis.finalproject.R;
 import com.tg.narcis.finalproject.MainActivity;
@@ -32,6 +34,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
     Button calc_one, calc_two, calc_three, calc_four, calc_five, calc_six, calc_seven, calc_eight, calc_nine, calc_zero;
     Button calc_div, calc_mult, calc_subs, calc_sum, calc_equal, calc_coma, calc_ac, calc_ans, calc_open_par, calc_close_par, calc_del;
     private double result;
+    boolean notif_toast;
 
 
 
@@ -40,6 +43,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.activity_calculator, container, false);
+
 
 
        // Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -95,7 +99,14 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
     }
 
+    private void notif_toast(){
+        notif_toast = true;
+    }
 
+    private void notif_state(){
+        notif_toast = false;
+    }
+    
     private void setText(String text){
         //Log.v(TAG, text);
         calc_text.setText(text);
@@ -240,8 +251,11 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 result = eval(showed_text);
                 if(Double.isNaN(result)){
                     Log.v(TAG, "Not a number");
-                    //TODO mostrar notificació d'error
-                    setText("Math Error");
+                    if(notif_toast)
+                        Toast.makeText(getActivity(), "Math Error", Toast.LENGTH_SHORT).show();
+                    else
+                        notification_state();
+                    setText("");
                 }
                 else if(result - (int) result == 0)
                     setText(valueOf((int) result));
@@ -273,4 +287,6 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+
 }

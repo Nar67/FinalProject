@@ -2,8 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/notification_mode"
+        android:title="Notification Mode"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/notif_toast"
+                android:title="Toast"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/notif_state"
+                android:title="Stat"
+                app:showAsAction="never">
+            </item>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/call"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="Call"
+        app:showAsAction="never"/>
 </menu>

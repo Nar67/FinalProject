@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public DrawerLayout drawer;
+    Toolbar toolbar;
     NavigationView navigationView;
 
     @Override
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(id);
         if (id == R.id.nav_calculator) {
             f = new Calculator();
+            toolbar.setTitle("Calculator");
         } //else if (id == R.id.nav_slideshow) {
             //f = new SlideShowFragment();
         //}

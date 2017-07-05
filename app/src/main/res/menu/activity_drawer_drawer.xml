@@ -7,7 +7,7 @@
             android:title="Calculator" />
         <!-- TODO add here other items for all the funcions -->
     </group>
-
+ <!--
     <item android:title="Communicate">
         <menu>
             <item
@@ -18,5 +18,6 @@
                 android:title="Send" />
         </menu>
     </item>
+    -->
 
 </menu>
