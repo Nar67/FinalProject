@@ -1,5 +1,8 @@
 package com.tg.narcis.finalproject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,9 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tg.narcis.finalproject.fragments.Calculator;
+import com.tg.narcis.finalproject.fragments.Memory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences sp;
 
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -28,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        toolbar.setTitle("Final Project");
     }
 
     @Override
@@ -78,12 +83,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment f = null;
         navigationView.setCheckedItem(id);
-        if (id == R.id.nav_calculator) {
-            f = new Calculator();
-            toolbar.setTitle("Calculator");
-        } //else if (id == R.id.nav_slideshow) {
-            //f = new SlideShowFragment();
-        //}
+        switch (id) {
+            case R.id.nav_calculator:
+                f = new Calculator();
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Calculator");
+                break;
+            case R.id.log_out:
+                sp = getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isLoged", false);
+                editor.apply();
+                finish();
+                break;
+            case R.id.nav_memory:
+                f = new Memory();
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Memory");
+                break;
+        }
 
         if(f != null){
             FragmentManager fm = getSupportFragmentManager();

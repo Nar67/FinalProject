@@ -1,11 +1,17 @@
 package com.tg.narcis.finalproject.fragments;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,6 +37,8 @@ import static java.lang.String.valueOf;
 
 public class Calculator extends Fragment implements View.OnClickListener {
 
+    View rootView;
+
     private static final String TAG = "MainActivty";
     TextView calc_text;
     HorizontalScrollView horizon;
@@ -45,11 +54,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.activity_calculator, container, false);
 
 
 
-       // Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        rootView = inflater.inflate(R.layout.activity_calculator, container, false);
+
+
+        // Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         calc_text = rootView.findViewById(R.id.text_calc);
         horizon = rootView.findViewById(R.id.horiz);
         horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
@@ -75,6 +86,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
         calc_open_par = rootView.findViewById(R.id.calc_open_par);
         calc_close_par = rootView.findViewById(R.id.calc_close_par);
         calc_del = rootView.findViewById(R.id.calc_delete);
+
         if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
             calc_sin = rootView.findViewById(R.id.calc_sin);
             calc_cos = rootView.findViewById(R.id.calc_cos);
@@ -113,9 +125,43 @@ public class Calculator extends Fragment implements View.OnClickListener {
         calc_close_par.setOnClickListener(this);
         calc_del.setOnClickListener(this);
 
+        setHasOptionsMenu(true);
+
         return rootView;
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.notif_toast:
+                notif_toast();
+                break;
+            case R.id.notif_state:
+                notif_state();
+                break;
+            case R.id.call:
+                Intent inte = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"));
+                startActivity(inte);
+                break;
+        }
+
+        return true;
+    }
+
+    private void notific () {
+        int mId = 1;
+        NotificationManager mNotificationManager;
+        mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getActivity().getApplicationContext())
+                        .setSmallIcon(R.drawable.ic_sentiment_neutral_black_24dp)
+                        .setContentTitle("Math Error")
+                        .setContentText("Ets un patán?");
+        mNotificationManager.notify(mId, mBuilder.build());
+    }
+
 
     private void notif_toast(){
         notif_toast = true;
@@ -123,6 +169,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
     private void notif_state(){
         notif_toast = false;
+    }
+
+    private void notification () {
+        if(notif_toast)
+            Toast.makeText(getActivity(), "Math Error", Toast.LENGTH_SHORT).show();
+        else
+            notific();
     }
     
     private void setText(String text){
@@ -137,7 +190,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
         return str;
     }
 
-    public static double eval(final String str) {
+    public double eval(final String str) {
         return new Object() {
             int pos = -1, ch;
 
@@ -158,8 +211,8 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 nextChar();
                 double x = parseExpression();
                 if (pos < str.length()) {
-                    //notification();
-                    throw new RuntimeException("Unexpected: " + (char) ch);
+                    notification();
+                    //throw new RuntimeException("Unexpected: " + (char) ch);
                 }
                 return x;
             }
@@ -192,7 +245,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 if (eat('+')) return parseFactor(); // unary plus
                 if (eat('-')) return -parseFactor(); // unary minus
 
-                double x;
+                double x = 0;
                 int startPos = this.pos;
                 if (eat('(')) { // parentheses
                     x = parseExpression();
@@ -204,17 +257,17 @@ public class Calculator extends Fragment implements View.OnClickListener {
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
-                    if (func.equals("√")) x = Math.sqrt(x);
+                    if (func.equals("sqrt")) x = Math.sqrt(x);
                     else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
                     else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
                     else {
-                        //notification();
-                        throw new RuntimeException("Unknown function: " + func);
+                        notification();
+                        //throw new RuntimeException("Unknown function: " + func);
                     }
                 } else {
-                    //notification();
-                    throw new RuntimeException("Unexpected: " + (char)ch);
+                    notification();
+                    //throw new RuntimeException("Unexpected: " + (char)ch);
                 }
 
                 if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
@@ -228,6 +281,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String showed_text = calc_text.getText().toString();
+        horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
         horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
         switch (view.getId()) {
             case R.id.calc_zero:
@@ -276,10 +330,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 result = eval(showed_text);
                 if(Double.isNaN(result)){
                     Log.v(TAG, "Not a number");
-                    if(notif_toast)
-                        Toast.makeText(getActivity(), "Math Error", Toast.LENGTH_SHORT).show();
-                    else
-                        //notification_state();
+                    notification();
                     setText("");
                 }
                 else if(result - (int) result == 0)
@@ -328,7 +379,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 break;
             case R.id.calc_sqrt:
                 if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
-                    setText(showed_text+ "√");
+                    setText(showed_text+ "sqrt");
                 break;
         }
     }
