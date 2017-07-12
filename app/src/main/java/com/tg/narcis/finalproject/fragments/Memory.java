@@ -1,7 +1,9 @@
 package com.tg.narcis.finalproject.fragments;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,6 +23,8 @@ import android.widget.LinearLayout;
 
 import com.example.material.joanbarroso.flipper.CoolImageFlipper;
 import com.tg.narcis.finalproject.R;
+import com.tg.narcis.finalproject.User;
+import com.tg.narcis.finalproject.database.DataBaseHelper;
 
 import java.util.Random;
 import android.os.Handler;
@@ -30,6 +34,7 @@ import android.widget.TextView;
 public class Memory extends Fragment {
 
 
+    SharedPreferences sp;
     View rootview;
     CoolImageFlipper flipper;
     private int nrows = 4;
@@ -56,6 +61,7 @@ public class Memory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        sp = getActivity().getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
         rootview = inflater.inflate(R.layout.fragment_memory, container, false);
         won = new boolean[ncols][nrows];
         grid = new ImageView[nrows][ncols];
@@ -134,6 +140,14 @@ public class Memory extends Fragment {
                                 moves++;
                                 textMem.setText("Moves: " + moves);
                                 if(cardsDone >= nrows*ncols-1) {
+                                    User user = new User(null,null,"-1");
+                                    user = getCurrentUser();
+                                    String userScore = user.getScore();
+                                    if(userScore == null || userScore.equals("-1") || Integer.parseInt(userScore) > moves) {
+                                        int i = DataBaseHelper.getInstance(getActivity()).updateUser(user.getUsername(), user.getPassword(), String.valueOf(moves));
+                                        if(i == 0)
+                                            Log.v("profile", user.printUser(user));
+                                    }
                                     showDialog();
                                 }
                             }
@@ -149,6 +163,11 @@ public class Memory extends Fragment {
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         return rootview;
 
+    }
+    public User getCurrentUser() {
+        String s = sp.getString("username", "-1");
+        User user = DataBaseHelper.getInstance(getActivity()).queryUser(s);
+        return user;
     }
 
     private void showDialog() {

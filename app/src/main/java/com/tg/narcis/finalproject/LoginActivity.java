@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         username = user_edit.getText().toString();
-        String pass = password_edit.getText().toString();
         switch (view.getId()) {
             case R.id.log_in_button:
                 User user = DataBaseHelper.getInstance(this).queryUser(username);
@@ -50,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     sp = getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean("isLoged", true);
+                    editor.putString("username", username);
                     editor.apply();
                     Intent i = new Intent(this, MainActivity.class);
                     startActivity(i);
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else {
                     user_edit.setText("");
                     password_edit.setText("");
-                    Toast.makeText(this, "User does not exist, pleas sign up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "User does not exist, please sign up", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.sign_up_button:

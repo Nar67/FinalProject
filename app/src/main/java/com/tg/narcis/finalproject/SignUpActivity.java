@@ -48,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Log.v("user", "user: " + username);
                     User usern = DataBaseHelper.getInstance(this).queryUser(username);
                     if(usern == null){
-                        DataBaseHelper.getInstance(this).createUser(username, pass);
+                        DataBaseHelper.getInstance(this).createUser(username, pass, "-1");
                         sp = getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putBoolean("isLoged", true);

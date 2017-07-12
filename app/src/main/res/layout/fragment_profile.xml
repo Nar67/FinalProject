@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tg.narcis.finalproject.fragments.Profile">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linear_profile"
+        android:orientation="vertical"
+        android:background="@color/black50PercentColor">
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"/>
+        <TextView
+            android:id="@+id/text_username"
+            android:background="@color/black75PercentColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/Black"
+            android:textSize="20dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/text_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/Black"
+            android:textSize="20dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/text_adress"
+            android:background="@color/black75PercentColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/Black"
+            android:textSize="20dp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

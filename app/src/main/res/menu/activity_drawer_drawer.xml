@@ -10,6 +10,18 @@
             android:title="Memory">
 
         </item>
+        <item
+            android:id="@+id/nav_ranking"
+            android:title="Ranking">
+        </item>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Profile">
+        </item>
+        <item
+            android:id="@+id/nav_mediaPlayer"
+            android:title="Media Player">
+        </item>
         <!-- add here other items for all the funcions -->
     </group>
 

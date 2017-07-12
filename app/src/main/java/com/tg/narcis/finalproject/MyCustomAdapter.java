@@ -36,10 +36,10 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.Adapte
 
     @Override
     public void onBindViewHolder(MyCustomAdapter.AdapterViewHolder adapterViewholder, final int position) {
-        final User contactoAMostrar = users.get(position);
+        final User userToShow = users.get(position);
 
-        adapterViewholder.username.setText(contactoAMostrar.getUsername());
-        adapterViewholder.score.setText(contactoAMostrar.getScore());
+        adapterViewholder.username.setText(userToShow.getUsername());
+        adapterViewholder.score.setText(userToShow.getScore());
 
     }
 

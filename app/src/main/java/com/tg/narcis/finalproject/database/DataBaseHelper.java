@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.tg.narcis.finalproject.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper{
@@ -19,7 +20,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     */
     private final String TAG = "DataBaseHelper";
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "Users.db";
 
 
@@ -27,8 +28,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             "CREATE TABLE " + DataBaseContract.Users.TABLE_NAME + " (" +
                     DataBaseContract.Users._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DataBaseContract.Users.COLUMN_USER + " STRING UNIQUE," +
-                    DataBaseContract.Users.COLUMN_PASS + " STRING, " +
-                    DataBaseContract.Users.COLUMN_SCORE + " STRING)";
+                    DataBaseContract.Users.COLUMN_PASS + " STRING," +
+                    DataBaseContract.Users.COLUMN_SCORE + " STRING NOT NULL DEFAULT '-1')";
 
     private static final String SQL_DELETE_Users =
             "DROP TABLE IF EXISTS " + DataBaseContract.Users.TABLE_NAME;
@@ -66,23 +67,24 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         onCreate(sqLiteDatabase);
     }
 
-    public long createUser(String user, String pass) {
+    public long createUser(String user, String pass, String score) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContract.Users.COLUMN_USER, user);
         values.put(DataBaseContract.Users.COLUMN_PASS, pass);
+        values.put(DataBaseContract.Users.COLUMN_SCORE, score);
         long newId = writable.insert(DataBaseContract.Users.TABLE_NAME,null,values);
         return newId;
     }
 
-    public int updateUser(String user, String pass) {
+    public int updateUser(String user, String pass, String score) {
         ContentValues values = new ContentValues();
-        values.put(DataBaseContract.Users.COLUMN_USER, user.charAt(0)+user);
-        values.put(DataBaseContract.Users.COLUMN_PASS, pass.charAt(0)+pass);
-        int rows_afected = readable.update(DataBaseContract.Users.TABLE_NAME,    //Table name
+        values.put(DataBaseContract.Users.COLUMN_USER, user);
+        values.put(DataBaseContract.Users.COLUMN_PASS, pass);
+        values.put(DataBaseContract.Users.COLUMN_SCORE, score);
+        int rows_afected = writable.update(DataBaseContract.Users.TABLE_NAME,    //Table name
                 values,                                                             //New value for columns
                 DataBaseContract.Users.COLUMN_USER + " LIKE ? ",                 //Selection args
                 new String[] {user});                                                  //Selection values
-
         return rows_afected;
     }
 
@@ -104,7 +106,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 null,                                               //Having
                 null);                                              //Sort
 
-        User returnValue = new User();
+        User returnValue = new User(null,null,null);
 
         if (c.moveToFirst()) {
             do {
@@ -125,7 +127,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         return returnValue;
     }
 
-    public List<User> queryAllUsers() {
+    public ArrayList<User> queryAllUsers() {
         Cursor c;
         c = readable.query(DataBaseContract.Users.TABLE_NAME,    //Table name
                 new String[] {DataBaseContract.Users.COLUMN_USER, DataBaseContract.Users.COLUMN_PASS, DataBaseContract.Users.COLUMN_SCORE},       //Columns we select
@@ -135,27 +137,32 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 null,                                               //Having
                 DataBaseContract.Users.COLUMN_SCORE + " ASC");                                              //Sort
 
-        User returnValue = new User();
-        List<User> userList = null;
+        ArrayList<User> userList = new ArrayList<>();
 
         if (c.moveToFirst()) {
+            String user;
             do {
+                User returnValue = new User(null,null,null);
                 //We go here if the cursor is not empty
-                String user = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_USER));
+                user = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_USER));
                 returnValue.setUsername(user);
                 String pass = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_PASS));
                 returnValue.setPassword(pass);
                 String score = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_SCORE));
                 returnValue.setScore(score);
-                userList.add(returnValue);
+                if(!score.equals("-1")) {
+                    userList.add(returnValue);
+                    Log.v("queryList", User.printUser(returnValue));
+                }
             } while (c.moveToNext());
         }
-        else
-            returnValue = null;
 
         //Always close the cursor after you finished using it
         c.close();
 
+        for(User user : userList) {
+            Log.v("finalList", User.printUser(user));
+        }
         return userList;
     }
 

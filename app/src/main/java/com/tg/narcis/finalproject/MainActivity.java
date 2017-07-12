@@ -16,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tg.narcis.finalproject.fragments.Calculator;
+import com.tg.narcis.finalproject.fragments.MediaPlayer;
 import com.tg.narcis.finalproject.fragments.Memory;
+import com.tg.narcis.finalproject.fragments.Profile;
+import com.tg.narcis.finalproject.fragments.Ranking;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -93,10 +96,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setSupportActionBar(toolbar);
                 toolbar.setTitle("Memory");
                 break;
+            case R.id.nav_ranking:
+                f = new Ranking();
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Ranking");
+                break;
+            case R.id.nav_profile:
+                f = new Profile();
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Profile");
+                break;
+            case R.id.nav_mediaPlayer:
+                f = new MediaPlayer();
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Media Player");
+                break;
             case R.id.log_out:
                 sp = getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("isLoged", false);
+                editor.putString("username", "-1");
+                editor.putString("address", "-1");
                 editor.apply();
                 finish();
                 break;
