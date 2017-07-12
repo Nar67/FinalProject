@@ -1,21 +1,14 @@
 package com.tg.narcis.finalproject.fragments;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,16 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tg.narcis.finalproject.R;
-import com.tg.narcis.finalproject.MainActivity;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-import static com.tg.narcis.finalproject.R.menu.drawer;
 import static java.lang.String.valueOf;
 
 public class Calculator extends Fragment implements View.OnClickListener {
@@ -58,6 +50,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
 
         rootView = inflater.inflate(R.layout.activity_calculator, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
 
         // Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -129,6 +122,23 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
         return rootView;
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null) {
+            String s = savedInstanceState.getString("text_calc");
+            Log.v("save", s);
+            setText(s);
+            result = savedInstanceState.getDouble("result");
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_calc, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
@@ -281,8 +291,16 @@ public class Calculator extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String showed_text = calc_text.getText().toString();
-        horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-        horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+        ViewTreeObserver vto = horizon.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+            @Override
+            public void onGlobalLayout() {
+                horizon.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                horizon.scrollTo(calc_text.getWidth(), 0);
+            }
+        });
+       // horizon.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
         switch (view.getId()) {
             case R.id.calc_zero:
                 setText(showed_text+"0");
@@ -328,8 +346,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 break;
             case R.id.calc_equals:
                 result = eval(showed_text);
-                if(Double.isNaN(result)){
-                    Log.v(TAG, "Not a number");
+                if(Double.isNaN(result) || Double.isInfinite(result)){
                     notification();
                     setText("");
                 }
@@ -382,6 +399,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
                     setText(showed_text+ "sqrt");
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("text_calc", calc_text.getText().toString());
+        outState.putDouble("result", result);
     }
 
 

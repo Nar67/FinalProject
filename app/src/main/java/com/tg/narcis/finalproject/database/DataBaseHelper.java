@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.tg.narcis.finalproject.User;
 
+import java.util.List;
+
 public class DataBaseHelper extends SQLiteOpenHelper{
 
     /*
@@ -25,7 +27,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             "CREATE TABLE " + DataBaseContract.Users.TABLE_NAME + " (" +
                     DataBaseContract.Users._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DataBaseContract.Users.COLUMN_USER + " STRING UNIQUE," +
-                    DataBaseContract.Users.COLUMN_PASS + " STRING)";
+                    DataBaseContract.Users.COLUMN_PASS + " STRING, " +
+                    DataBaseContract.Users.COLUMN_SCORE + " STRING)";
 
     private static final String SQL_DELETE_Users =
             "DROP TABLE IF EXISTS " + DataBaseContract.Users.TABLE_NAME;
@@ -94,7 +97,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public User queryUser(String s) {
         Cursor c;
         c = readable.query(DataBaseContract.Users.TABLE_NAME,    //Table name
-                new String[] {DataBaseContract.Users.COLUMN_USER, DataBaseContract.Users.COLUMN_PASS},       //Columns we select
+                new String[] {DataBaseContract.Users.COLUMN_USER, DataBaseContract.Users.COLUMN_PASS, DataBaseContract.Users.COLUMN_SCORE},       //Columns we select
                 DataBaseContract.Users.COLUMN_USER + " = ? ",    //Columns for the WHERE clause
                 new String[] {s},                                   //Values for the WHERE clause
                 null,                                               //Group By
@@ -120,6 +123,40 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         c.close();
 
         return returnValue;
+    }
+
+    public List<User> queryAllUsers() {
+        Cursor c;
+        c = readable.query(DataBaseContract.Users.TABLE_NAME,    //Table name
+                new String[] {DataBaseContract.Users.COLUMN_USER, DataBaseContract.Users.COLUMN_PASS, DataBaseContract.Users.COLUMN_SCORE},       //Columns we select
+                null,    //Columns for the WHERE clause
+                null,                                   //Values for the WHERE clause
+                null,                                               //Group By
+                null,                                               //Having
+                DataBaseContract.Users.COLUMN_SCORE + " ASC");                                              //Sort
+
+        User returnValue = new User();
+        List<User> userList = null;
+
+        if (c.moveToFirst()) {
+            do {
+                //We go here if the cursor is not empty
+                String user = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_USER));
+                returnValue.setUsername(user);
+                String pass = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_PASS));
+                returnValue.setPassword(pass);
+                String score = c.getString(c.getColumnIndex(DataBaseContract.Users.COLUMN_SCORE));
+                returnValue.setScore(score);
+                userList.add(returnValue);
+            } while (c.moveToNext());
+        }
+        else
+            returnValue = null;
+
+        //Always close the cursor after you finished using it
+        c.close();
+
+        return userList;
     }
 
     @Override

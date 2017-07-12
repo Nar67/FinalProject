@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/grid_settings"
+        android:title="Grid size"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/two"
+                android:title="2x2"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/three"
+                android:title="3x3"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/four"
+                android:title="4x4"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/five"
+                android:title="5x5"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/six"
+                android:title="6x6"
+                app:showAsAction="never">
+            </item>
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/time_settings"
+        android:title="Difficulty"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/easy"
+                android:title="Easy"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/normal"
+                android:title="Normal"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/hard"
+                android:title="Hard"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/hard_as_fuck"
+                android:title="Hard As Fuck"
+                app:showAsAction="never">
+            </item>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/restart"
+        android:orderInCategory="100"
+        android:title="Restart"
+        app:showAsAction="never"/>
+
+
+</menu>

@@ -22,5 +22,6 @@ public final class DataBaseContract {
         //because this class implements BaseColumns which has a _ID constant for that
         public static final String COLUMN_USER = "username";
         public static final String COLUMN_PASS = "password";
+        public static final String COLUMN_SCORE= "score";
     }
 }
