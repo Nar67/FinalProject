@@ -119,6 +119,7 @@ public class Memory extends Fragment {
                                 firstImg = imgGrid[finalRows][finalCols];
                                 firstClickRow[0] = finalRows;
                                 firstClickCols[0] = finalCols;
+                                grid[finalRows][finalCols].setClickable(false);
                             }
                             if(clicked == 1) {
                                 secondFlipped = grid[finalRows][finalCols];

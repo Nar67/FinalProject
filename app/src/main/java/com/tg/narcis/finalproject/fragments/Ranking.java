@@ -87,7 +87,21 @@ public class Ranking extends Fragment {
         if(item.getItemId() == R.id.reset){
             User user = getCurrentUser();
             int i = DataBaseHelper.getInstance(getActivity()).updateUser(user.getUsername(), user.getPassword(), "-1");
-            Toast.makeText(getActivity(), "User score deleted, you can't delete other users scores tho", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "User score deleted", Toast.LENGTH_SHORT).show();
+            restartFragment();
+        } else if(item.getItemId() == R.id.resetAllUsers){
+            List<User> users = DataBaseHelper.getInstance(getActivity()).queryAllUsers();
+            for (User user : users) {
+                if(user.getPassword() != "0"){
+                    user.setScore("-1");
+                    int i = DataBaseHelper.getInstance(getActivity()).updateUser(user.getUsername(), user.getPassword(), user.getScore());
+                }
+            }
+            sp = getActivity().getSharedPreferences("FinalProject", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("isFirstTime", true);
+            editor.apply();
+            Toast.makeText(getActivity(), "All users score deleted", Toast.LENGTH_SHORT).show();
             restartFragment();
         }
         return true;

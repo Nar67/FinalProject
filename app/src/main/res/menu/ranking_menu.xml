@@ -6,5 +6,9 @@
         android:title="Reset"
         app:showAsAction="never">
     </item>
+    <item
+        android:id="@+id/resetAllUsers"
+        android:title="Reset all users">
+    </item>
 
 </menu>
